@@ -1,7 +1,7 @@
 import express from "express";
 //const express = require("express");
 const app = express();
-
+import cors from "cors";
 import mongoose from "mongoose";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
@@ -10,7 +10,15 @@ import cookieParser from "cookie-parser";
 app.use(express.json());
 app.use(cookieParser());
 import User from "./model/user.model.js";
-import { error } from "console";
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    credentials: true,
+    optionsSuccessStatus: 204,
+  })
+);
+
 mongoose
   .connect(process.env.Db_connect)
   .then(() => {
