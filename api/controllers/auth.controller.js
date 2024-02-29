@@ -17,21 +17,20 @@ export const signup = async (req, res, next) => {
 
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
-  try {
-    const validUser = await User.findOne({ email });
-    if (!validUser) return next(errorhandeler(404, "User not found"));
-    const validPassword = await bcryptjs.compareSync(
-      password,
-      validUser.password
-    );
-    if (!validPassword) return errorhandeler(401, "wrong credentials!");
-    const token = jwt.sign({ id: validUser._id }, process.env.jwt_salt);
-    const { password: pass, ...rest } = user._doc;
-    res
-      .cookie("access_token", token, { httpOnly: true })
-      .status(200)
-      .json(rest);
-  } catch (error) {
-    next(error);
-  }
+  if (!email) return next(errorhandeler(400, "Provide Email"));
+  if (!password) return next(errorhandeler(400, "Provide Password "));
 };
+try {
+  const validUser = await User.findOne({ email });
+  if (!validUser) return next(errorhandeler(404, "User not found"));
+  const validPassword = await bcryptjs.compareSync(
+    password,
+    validUser.password
+  );
+  if (!validPassword) return errorhandeler(401, "wrong credentials!");
+  const token = jwt.sign({ id: validUser._id }, process.env.jwt_salt);
+  const { password: pass, ...rest } = user._doc;
+  res.cookie("access_token", token, { httpOnly: true }).status(200).json(rest);
+} catch (error) {
+  next(error);
+}
