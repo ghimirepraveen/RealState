@@ -40,6 +40,7 @@ app.use((err, req, res, next) => {
     message,
   });
 });
+
 const PORT = process.env.PORT;
 app.listen(PORT, () => {
   console.log(`\n🫡 Handle with care, pretty codes ahead! \n`);

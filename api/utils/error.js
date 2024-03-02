@@ -1,4 +1,4 @@
-export const errorhandeler = (statusCode, message) => {
+export const errorHandeler = (statusCode, message) => {
   const error = new Error();
   error.statusCode = statusCode;
   error.message = message;
