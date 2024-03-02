@@ -1,8 +1,8 @@
 import User from "../model/user.model.js";
-import bcryptjs from "bcryptjs"; //import { errorhandeler } from "../utils/error.js";
+import bcryptjs from "bcryptjs";
 import { errorhandeler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
-//changin github repo
+
 export const signup = async (req, res, next) => {
   const { username, email, password } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
@@ -14,23 +14,20 @@ export const signup = async (req, res, next) => {
     next(error);
   }
 };
-
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
-  if (!email) return next(errorhandeler(400, "Provide Email"));
-  if (!password) return next(errorhandeler(400, "Provide Password "));
+  try {
+    const validUser = await User.findOne({ email });
+    if (!validUser) return next(errorHandler(404, "User not found!"));
+    const validPassword = bcryptjs.compareSync(password, validUser.password);
+    if (!validPassword) return next(errorHandler(401, "Wrong credentials!"));
+    const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+    const { password: pass, ...rest } = validUser._doc;
+    res
+      .cookie("access_token", token, { httpOnly: true })
+      .status(200)
+      .json(rest);
+  } catch (error) {
+    next(error);
+  }
 };
-try {
-  const validUser = await User.findOne({ email });
-  if (!validUser) return next(errorhandeler(404, "User not found"));
-  const validPassword = await bcryptjs.compareSync(
-    password,
-    validUser.password
-  );
-  if (!validPassword) return errorhandeler(401, "wrong credentials!");
-  const token = jwt.sign({ id: validUser._id }, process.env.jwt_salt);
-  const { password: pass, ...rest } = user._doc;
-  res.cookie("access_token", token, { httpOnly: true }).status(200).json(rest);
-} catch (error) {
-  next(error);
-}

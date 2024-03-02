@@ -1,15 +1,15 @@
 import express from "express";
-//const express = require("express");
 const app = express();
 import cors from "cors";
 import mongoose from "mongoose";
 import userRouter from "./routes/user.route.js";
 import authRouter from "./routes/auth.route.js";
-import "dotenv/config";
+import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 app.use(express.json());
 app.use(cookieParser());
 import User from "./model/user.model.js";
+dotenv.config();
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -20,7 +20,7 @@ app.use(
 );
 
 mongoose
-  .connect(process.env.Db_connect)
+  .connect(process.env.DB)
   .then(() => {
     console.log("Database connected succesfully");
   })
@@ -40,7 +40,9 @@ app.use((err, req, res, next) => {
     message,
   });
 });
-
-app.listen(3000, () => {
-  console.log("server is running on port 3000");
+const PORT = process.env.PORT;
+app.listen(PORT, () => {
+  console.log(`\n🫡 Handle with care, pretty codes ahead! \n`);
+  console.log(`ctrl + c to stop server`);
+  console.log(`server is running on port ${PORT}`);
 });
