@@ -2,12 +2,16 @@ import express from "express";
 const app = express();
 import cors from "cors";
 import mongoose from "mongoose";
-import userRouter from "./routes/user.route.js";
-import authRouter from "./routes/auth.route.js";
+import userRouter from "./routes/user.routes.js";
+import authRouter from "./routes/auth.routes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import listingRouter from "./routes/listing.routes.js";
 app.use(express.json());
 app.use(cookieParser());
+
+import Listing from "../api/model/listing.model.js";
+
 import User from "./model/user.model.js";
 dotenv.config();
 app.use(
@@ -30,7 +34,7 @@ mongoose
 
 app.use("/api/user", userRouter);
 app.use("/api/auth", authRouter);
-
+app.use("/api/listing", listingRouter);
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
   const message = err.message || "internal server error";
