@@ -17,7 +17,7 @@ https://github.com/ghimirepraveen/RealState.git
 2. Navigate to the project directory:
 
 ```bash
-cd server
+cd api
 ```
 
 3. Install dependencies:
