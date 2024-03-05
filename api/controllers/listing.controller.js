@@ -59,6 +59,7 @@ export const getListing = async (req, res, next) => {
 };
 export const getListings = (req, res, next) => {
   try {
+    //here the logic will be added for querry
   } catch (error) {
     next(error);
   }
