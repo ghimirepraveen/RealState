@@ -1,7 +1,6 @@
 import { useState } from "react";
-// useNavigate
+
 import { Link, useNavigate } from "react-router-dom";
-//import OAuth from "../components/OAuth";
 
 export default function Signin() {
   const [formData, setFormData] = useState({});
@@ -28,7 +27,6 @@ export default function Signin() {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      //console.log(data);
       if (data.success === false) {
         setLoading(false);
         setError(data.message);
