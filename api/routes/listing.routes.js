@@ -9,11 +9,12 @@ import {
 import { verifyToken } from "../utils/vefifyUser.js";
 
 const listingroutes = express.Router();
-
-listingroutes.post("/create", verifyToken, createlisting);
-listingroutes.delete("/delete/:id", verifyToken, deletelisting);
-listingroutes.post("/update/:id", verifyToken, updateListing);
 listingroutes.get("/get/:id", getListing);
-listingroutes.get("/get", getListings); //this is for search
+listingroutes.get("/get", getListings);
+
+listingroutes.use(verifyToken);
+listingroutes.post("/create", createlisting);
+listingroutes.delete("/delete/:id", deletelisting);
+listingroutes.post("/update/:id", updateListing);
 
 export default listingroutes;

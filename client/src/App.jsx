@@ -3,7 +3,7 @@ import Home from "./pages/Home";
 import SignIn from "./pages/SignIn";
 import Signup from "./pages/Signup";
 import About from "./pages/about";
-import { Profiler } from "react";
+//import { Profiler } from "react";
 import Profile from "./pages/Profile";
 import Hearder from "./components/Hearder";
 
