@@ -2,18 +2,6 @@ import mongoose from "mongoose";
 
 const listingSchema = new mongoose.Schema(
   {
-    // "description":"test",
-    // "address":"test",
-    // "regularPrice":44556,
-    // "discountPrice":555,
-    // "bathrooms":4,
-    // "bedrooms":5,
-    // "furnished":true,
-    // "parking":true,
-    // "type":"rent",
-    // "offer":true,
-    // "imageUrls":["hello","world"],
-    // "userRef":"hello"
     name: {
       type: String,
       required: true,
