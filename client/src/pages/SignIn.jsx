@@ -1,18 +1,12 @@
 import { useState } from "react";
 
 import { Link, useNavigate } from "react-router-dom";
-import { userDispatch, useSelector } from "react-redux";
-import {
-  signInStart,
-  signInSuccess,
-  SignInFailure,
-} from "../redux/user/userSlice";
 
-export default function Signin() {
+export default function SignUp() {
   const [formData, setFormData] = useState({});
-  const { loading, error } = useSelector((state) => state.user);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const dispatch = userDispatch();
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -22,7 +16,7 @@ export default function Signin() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      dispatch(signInStart());
+      setLoading(true);
       const res = await fetch("http://localhost:3000/api/auth/signin", {
         method: "POST",
         headers: {
@@ -30,16 +24,20 @@ export default function Signin() {
         },
         body: JSON.stringify(formData),
       });
+      console.log(formData);
       const data = await res.json();
-      if (data.success === false) {
-        dispatch(SignInFailure(data.message));
 
+      if (data.success === false) {
+        setLoading(false);
+        setError(data.message);
         return;
       }
-      dispatch(signInSuccess(data));
+      setLoading(false);
+      setError(null);
       navigate("/");
     } catch (error) {
-      dispatch(SignInFailure(error.message));
+      setLoading(false);
+      setError(error.message);
     }
   };
   return (
@@ -70,9 +68,9 @@ export default function Signin() {
         {/* <OAuth /> */}
       </form>
       <div className="flex gap-2 mt-5">
-        <p> Dont have an account?</p>
+        <p> Don't have an account?</p>
         <Link to={"/sign-up"}>
-          <span className="text-blue-700">Sign Up</span>
+          <span className="text-blue-700">Sign up</span>
         </Link>
       </div>
       {error && <p className="text-red-500 mt-5">{error}</p>}
