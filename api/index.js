@@ -6,15 +6,14 @@ import authRouter from "./routes/auth.routes.js";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
 import listingRouter from "./routes/listing.routes.js";
-app.use(express.json());
-app.use(cookieParser());
-
 import Listing from "../api/model/listing.model.js";
 import User from "./model/user.model.js";
 const app = express();
+
 app.use(express.json());
 app.use(cookieParser());
 dotenv.config();
+app;
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -52,3 +51,5 @@ app.listen(PORT, () => {
   console.log(`ctrl + c to stop server`);
   console.log(`server is running on port ${PORT}`);
 });
+
+//npm start
